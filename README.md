@@ -15,8 +15,8 @@ A sleek, dark-mode desktop application built with Python and Tkinter that fetche
 ## 💻 Software Setup (Python)
 
 **1. Clone the repository and navigate inside:**
-git clone https://github.com/swezxyCode/Currency-Converter-Advanced-Arduino.git
-cd Currency-Converter-Advanced-Arduino
+git clone https://github.com/swezxyCode/Currency-Converter-Advanced.git
+cd Currency-Converter-Advanced
 
 **2. Create a virtual environment and install requirements:**
 python3 -m venv .venv
