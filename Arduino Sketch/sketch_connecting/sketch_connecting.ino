@@ -18,21 +18,28 @@ void setup() {
 }
 
 void loop() {
-  // Check if Python has sent any data down the USB cable
   if (Serial.available() > 0) {
+    String incomingData = Serial.readStringUntil('\n');
+    incomingData.trim();
     
-    // Read the incoming bytes until the newline (\n) arrives
-    String incomingRate = Serial.readStringUntil('\n');
+    int separatorIndex = incomingData.indexOf('|');
     
-    // Clean up any accidental invisible characters or spaces
-    incomingRate.trim(); 
+    if (separatorIndex > 0) {
+      String topRow = incomingData.substring(0, separatorIndex); 
+      String bottomRow = incomingData.substring(separatorIndex + 1); 
+      
+      // DEFENSIVE TRUNCATION: Force it to never exceed 16 characters
+      if (topRow.length() > 16) { topRow = topRow.substring(0, 16); }
+      if (bottomRow.length() > 16) { bottomRow = bottomRow.substring(0, 16); }
+      
+      lcd.clear();                  
+      delay(10); // I2C bus 10 milliseconds to physically clear
 
-    // Wipe the screen and print the new data
-    lcd.clear();                  
-    lcd.setCursor(0, 0);          
-    lcd.print("USD to AMD:");
-    
-    lcd.setCursor(0, 1);          
-    lcd.print(incomingRate);      
+      lcd.setCursor(0, 0);          
+      lcd.print(topRow);
+      
+      lcd.setCursor(0, 1);          
+      lcd.print(bottomRow);  
+    }
   }
 }

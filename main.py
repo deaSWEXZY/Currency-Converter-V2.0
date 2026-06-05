@@ -124,6 +124,16 @@ class CurrencyConverterApp:
 
             self.result_exchange_output.config(text=f"{final_value:.2f} {to_curr}", font=FONT_RESULT)
 
+            # ---------------- DYNAMIC ARDUINO UPDATE ----------------
+            if self.arduino:
+                try:
+                    # Format: "100.0 USD|-> 38850.00 AMD\n"
+                    lcd_text = f"{amount} {from_curr}|-> {final_value:.2f} {to_curr}\n"
+                    self.arduino.write(lcd_text.encode('utf-8'))
+                    print(f"Sent to LCD: {lcd_text.strip()}")
+                except Exception as e:
+                    print(f"Failed to send data to hardware: {e}")
+
         except KeyError:
             messagebox.showwarning(title="Error", message="Select valid currency")
         except ValueError:
