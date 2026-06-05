@@ -1,0 +1,4 @@
+# External dependencies only
+requests==2.31.0
+Pillow==10.3.0
+pyserial==3.5
