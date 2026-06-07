@@ -5,6 +5,7 @@ import requests
 import design_config as cfg
 from design_config import TEXT_LIGHT, FONT_RESULT
 import serial
+import serial.tools.list_ports
 import time
 
 class CurrencyConverterApp:
@@ -21,13 +22,24 @@ class CurrencyConverterApp:
         self.root.iconphoto(False, self.window_icon) #Apply it specifically to the title bar icon slot
 
         self.rates_data = {}
-
         # ---------------- ARDUINO INITIALIZATION ----------------
         try:
-            # Open the serial port connection once at startup
-            self.arduino = serial.Serial('/dev/ttyUSB0', 9600, timeout=1)
-            print("Arduino connection established!")
-            time.sleep(2)
+            self.arduino_port = None
+             # ---------------- PORT CHECKING ----------------
+            self.TARGET_VIDS = [0x2341, 0x1A86, 0x10C4, 0x0403]
+
+            self.ports = serial.tools.list_ports.comports()
+
+            for port in self.ports:
+                if port.vid in self.TARGET_VIDS:
+                    print(f"Device: {port.device}")
+                    print(f"HEX VID: {port.vid:04X} | PID: {port.pid:04X}")
+
+                    # Open the serial port connection once at startup
+                    self.arduino = serial.Serial(port.device, 9600, timeout=1)
+                    print("Arduino connection established!")
+                    time.sleep(2)
+                    break
         except Exception as e:
             print(f"Could not connect to Arduino: {e}")
             self.arduino = None
