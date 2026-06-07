@@ -1,4 +1,4 @@
-# 💱 Currency Converter GUI (with Advanced Arduino Display [LINUX ONLY])
+# 💱 Currency Converter GUI (with Advanced Arduino Display [Works On All Platforms])
 
 A sleek, dark-mode desktop application built with Python and Tkinter that fetches real-time, global exchange rates. It features a complete conversion engine and an advanced Linux-only physical hardware integration to display live conversions on an external LCD screen.
 
