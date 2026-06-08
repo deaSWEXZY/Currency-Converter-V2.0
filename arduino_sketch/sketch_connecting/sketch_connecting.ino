@@ -5,7 +5,6 @@
 LiquidCrystal_I2C lcd(0x27, 16, 2); 
 
 int buzzerPIN = 13;
-bool hasBeeped = false;
 
 void setup() {
   // Start the serial connection at the same baud rate as your Python script
@@ -35,14 +34,12 @@ void loop() {
       String topRow = incomingData.substring(0, separatorIndex); 
       String bottomRow = incomingData.substring(separatorIndex + 1); 
       
-      // DEFENSIVE TRUNCATION: Force it to never exceed 16 characters
+      // DEFENSIVE: Force it to never exceed 16 characters
       if (topRow.length() > 16) { topRow = topRow.substring(0, 16); }
       if (bottomRow.length() > 16) { bottomRow = bottomRow.substring(0, 16); }
       
       lcd.clear();                  
       delay(10); // I2C bus 10 milliseconds to physically clear
-
-      
       lcd.setCursor(0, 0);          
       lcd.print(topRow);
       
@@ -51,6 +48,7 @@ void loop() {
 
       tone(buzzerPIN, 3500, 50);
     }
+      
     else {
       lcd.clear();
       delay(500);
