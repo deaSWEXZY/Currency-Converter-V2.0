@@ -22,7 +22,7 @@ cd Currency-Converter-Advanced
 **2. Create a virtual environment and install requirements:**
 python3 -m venv .venv
 source .venv/bin/activate  # On Windows use: .venv\Scripts\activate
-pip install -r requirments.txt
+pip install -r requirements.txt
 
 *(Note for Linux users: If your system lacks Tkinter, install it via: sudo apt install python3-tk)*
 
