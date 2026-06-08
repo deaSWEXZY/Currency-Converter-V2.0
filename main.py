@@ -22,9 +22,13 @@ class CurrencyConverterApp:
         self.root.iconphoto(False, self.window_icon) #Apply it specifically to the title bar icon slot
 
         self.rates_data = {}
+        self.arduino = None # Starting With None State
+
+        # ---------------- START BLOCK ----------------
+        messagebox.showinfo(title="Read README for Arduino!!",message="Hello, dear user!\nPlease read instructions for Arduino LCD\nIf you have one.\nThank You!!")
+       
         # ---------------- ARDUINO INITIALIZATION ----------------
         try:
-            self.arduino_port = None
              # ---------------- PORT CHECKING ----------------
             self.TARGET_VIDS = [0x2341, 0x1A86, 0x10C4, 0x0403]
 
@@ -40,10 +44,10 @@ class CurrencyConverterApp:
                     print("Arduino connection established!")
                     time.sleep(2)
                     break
+
         except Exception as e:
             print(f"Could not connect to Arduino: {e}")
             self.arduino = None
-
         self.create_widgets()
 
 

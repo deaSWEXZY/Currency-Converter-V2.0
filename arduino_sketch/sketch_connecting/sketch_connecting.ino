@@ -4,6 +4,9 @@
 // Initialize the LCD. Address is usually 0x27 or 0x3F for a 16x2 screen
 LiquidCrystal_I2C lcd(0x27, 16, 2); 
 
+int buzzerPIN = 13;
+bool hasBeeped = false;
+
 void setup() {
   // Start the serial connection at the same baud rate as your Python script
   Serial.begin(9600);
@@ -11,15 +14,19 @@ void setup() {
   // Initialize the LCD and turn on the backlight
   lcd.init();
   lcd.backlight();
+
+  //Buzzer
+  pinMode(13, OUTPUT);
   
   // Print the initial connecting message
   lcd.setCursor(0, 0);
   lcd.print("Connecting...");
+  
 }
 
 void loop() {
   if (Serial.available() > 0) {
-    String incomingData = Serial.readStringUntil('\n');
+    String incomingData = Serial.readStringUntil('\n'); // Rates from API
     incomingData.trim();
     
     int separatorIndex = incomingData.indexOf('|');
@@ -35,11 +42,23 @@ void loop() {
       lcd.clear();                  
       delay(10); // I2C bus 10 milliseconds to physically clear
 
+      
       lcd.setCursor(0, 0);          
       lcd.print(topRow);
       
       lcd.setCursor(0, 1);          
-      lcd.print(bottomRow);  
+      lcd.print(bottomRow);
+
+      tone(buzzerPIN, 3500, 50);
+    }
+    else {
+      lcd.clear();
+      delay(500);
+      lcd.setCursor(0, 0);
+      lcd.print("USD / AMD Rate: ");
+      lcd.setCursor(0, 1);
+      lcd.print(incomingData + " AMD");
+      tone(buzzerPIN, 2000, 300);
     }
   }
 }
