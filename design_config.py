@@ -6,6 +6,6 @@ TEXT_LIGHT = "#F4F4F9"    # Off-white for high readability labels
 TEXT_MUTED = "#8D99AE"    # Soft gray for secondary labels (like "Amount:")
 
 # Typography
-FONT_TITLE = ("Helvetica", 15, "bold")
-FONT_LABEL = ("Helvetica", 11, "normal")
+FONT_TITLE = ("Helvetica", 16, "bold")
+FONT_LABEL = ("Helvetica", 14, "normal")
 FONT_RESULT = ("Helvetica", 18, "bold")
