@@ -9,7 +9,6 @@ import time
 import customtkinter as tkc #Updated Tkinter
 
 class CurrencyConverterApp:
-
     def __init__(self, root):
         self.root = root
         self.root.title("Currency Converter")
@@ -52,9 +51,9 @@ class CurrencyConverterApp:
             print(f"Could not connect to Arduino: {e}")
             self.arduino = None
         self.create_widgets()
-
-
         self.fetch_live_data()
+
+        self.check_serial_trigger()
 
     def create_widgets(self):
         #Centering Columns
@@ -148,18 +147,21 @@ class CurrencyConverterApp:
             self.from_currency_box.configure(values=currency_codes)
             self.to_currency_box.configure(values=currency_codes)
 
-            # ---------------- SEND DATA TO ARDUINO ----------------
-            # Check if connection is alive and AMD exists in the API response
             if self.arduino and "AMD" in self.rates_data:
-                try:
-                    amd_rate = self.rates_data["AMD"]
+                self.start_state() # start_state function is USD / AMD Rate
 
-                    # Format as string with newline, encode to bytes
-                    message = f"{amd_rate:.2f}\n"
-                    self.arduino.write(message.encode('utf-8'))
-                    print(f"Successfully sent USD/AMD to LCD: {amd_rate:.2f}")
-                except Exception as e:
-                    print(f"Failed to send data to hardware: {e}")
+    # ---------------- SEND START STATE DATA TO ARDUINO ----------------
+    def start_state(self):
+        try:
+            amd_rate = self.rates_data["AMD"]
+
+            # Format as string with newline, encode to bytes
+            message = f"{amd_rate:.2f}\n"
+            self.arduino.write(message.encode('utf-8'))
+            print(f"Successfully sent USD/AMD to LCD: {amd_rate:.2f}")
+
+        except Exception as e:
+            print(f"Failed to send data to hardware: {e}")
 
     #------------------ MAIN LOGIC(CONVERTING) ------------------
     def convert_currency(self):
@@ -190,9 +192,41 @@ class CurrencyConverterApp:
         except ValueError:
             messagebox.showwarning(title="Error", message="Enter a number please.")
 
+        # ------------------ MANUAL RESET ------------------
+    def check_serial_trigger(self):
+        # Only check if the serial connection is open
+        if self.arduino and self.arduino.in_waiting > 0:
+            try:
+                # Read line the Arduino printed
+                incoming_signal = self.arduino.readline().decode('utf-8').strip()
+
+                if incoming_signal == "HARDWARE_RESET":
+                    print("[Hardware Event] Physical button pressed! Resetting UI...")
+                    # Trigger UI reset function
+                    self.reset_input()
+
+            except Exception as e:
+                print(f"Error reading serial event: {e}")
+
+        # Schedule Python to run this check function again in 100ms
+        self.root.after(100, self.check_serial_trigger)
+
+    # ------------------ RESET ALL ------------------
     def reset_input(self):
         self.result_exchange_output.configure(text="--")
         self.amount_entry.delete(0, "end")
+        self.from_currency_box.set("RUB")
+        self.to_currency_box.set("AMD")
+
+        if self.arduino:
+            try:
+                reset_message = "System Reset... |Ready\n"
+                self.arduino.write(reset_message.encode('utf-8'))
+                print("Sent reset command to Arduino LCD.")
+                self.root.after(1000, self.start_state)
+
+            except Exception as e:
+                print(f"Failed to clear hardware display: {e}")
 
 #------------------ OBJECTS - THE END ------------------
 root = Tk()
