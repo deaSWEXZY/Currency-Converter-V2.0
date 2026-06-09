@@ -7,6 +7,7 @@ import serial
 import serial.tools.list_ports
 import time
 import customtkinter as tkc #Updated Tkinter
+import os
 
 class CurrencyConverterApp:
     def __init__(self, root):
@@ -17,7 +18,14 @@ class CurrencyConverterApp:
         self.root.resizable(False, False) #Make Sure that it's not resizable!
 
         #Icon - Image
-        icon_img = Image.open("images/currency.png") #Loading the image file
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+
+        # 2. Safely join that with images folder path
+        icon_path = os.path.join(base_dir, "images", "currency.png")
+
+        # 3. Loading the image using the path
+        icon_img = Image.open(icon_path)
+        
         self.window_icon = ImageTk.PhotoImage(icon_img) #Converting into Tkinter object
         self.root.iconphoto(False, self.window_icon) #Apply it specifically to the title bar icon slot
 
