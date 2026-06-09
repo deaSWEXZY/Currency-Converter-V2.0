@@ -58,5 +58,6 @@ void loop() {
       lcd.print(incomingData + " AMD");
       tone(buzzerPIN, 2000, 300);
     }
+      
   }
 }

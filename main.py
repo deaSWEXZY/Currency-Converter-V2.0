@@ -100,6 +100,15 @@ class CurrencyConverterApp:
             hover_color=cfg.BUTTON_HOVER
         )
 
+        # Button - Reset
+        self.reset_button = tkc.CTkButton(
+            self.root,
+            text="Reset",
+            fg_color=cfg.BUTTON_COLOR,
+            hover_color=cfg.BUTTON_HOVER,
+            command=self.reset_input
+        )
+
         #------------------ ELEMENTS PLACING ------------------
 
         # Title
@@ -123,6 +132,9 @@ class CurrencyConverterApp:
 
         # Button (Centered across both columns)
         self.convert_button.grid(row=5, column=0, columnspan=2, pady=20)
+
+        # Button - Reset
+        self.reset_button.grid(row=6, column=1, pady=20)
 
     #------------------ LIVE API DATA ------------------
     def fetch_live_data(self):
@@ -177,6 +189,11 @@ class CurrencyConverterApp:
             messagebox.showwarning(title="Error", message="Select valid currency")
         except ValueError:
             messagebox.showwarning(title="Error", message="Enter a number please.")
+
+    def reset_input(self):
+        self.result_exchange_output.configure(text="--")
+        self.amount_entry.delete(0, "end")
+        self.arduino.write(b"reset!")
 
 #------------------ OBJECTS - THE END ------------------
 root = Tk()
