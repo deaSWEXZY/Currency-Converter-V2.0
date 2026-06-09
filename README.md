@@ -1,6 +1,8 @@
 # Currency Converter GUI with Arduino LCD Display
 
-A dark-mode desktop application built with Python and Tkinter that fetches real-time exchange rates. It features a complete conversion engine paired with a hardware integration layer that automatically detects your connected Arduino board to display live conversions on an external LCD screen across Windows, macOS, and Linux.
+<img width="1212" height="924" alt="image" src="https://github.com/user-attachments/assets/3316d9cd-006a-4c84-8701-3aa9021f3d6b" />
+
+A dark-mode desktop application built with Python and Tkinter(CustomTkinter) that fetches real-time exchange rates. It features a complete conversion engine paired with a hardware integration layer that automatically detects your connected Arduino board to display live conversions on an external LCD screen across Windows, macOS, and Linux.
 
 ---
 
@@ -15,9 +17,9 @@ A dark-mode desktop application built with Python and Tkinter that fetches real-
 
 ## Software Setup (Python)
 
-**1. Clone the repository and navigate inside:**
-git clone https://github.com/swezxyCode/Currency-Converter-Advanced.git
-cd Currency-Converter-Advanced
+**1. Clone the repository and navigate inside:**[
+git clone https://github.com/deaSWEXZY/Currency-Converter-V2.0
+cd Currency-Converter-V2.0
 
 **2. Create a virtual environment and install requirements:**
 python3 -m venv .venv
@@ -39,10 +41,16 @@ To use the desktop layout alongside a physical display tracker, follow these ste
 
 ### 1. Hardware Connections
 * Connect a 16x2 LCD with an I2C module to your Arduino board.
-* **Wiring:** * VCC -> 5V
+* **Wiring:**
+  * VCC -> 5V
   * GND -> GND
   * SDA -> A4
   * SCL -> A5
+* Connect Passive Buzzer.
+* **Wiring:**
+  * VCC -> 5V (Use a 220ohms resisor on your breadboard!!)
+  * GND -> GND
+  * I/O -> PIN: 13
 * Open sketch_connecting.ino in the Arduino IDE, install the LiquidCrystal_I2C library, and flash your board.
 
 ### 2. Operating System Configurations
@@ -51,3 +59,5 @@ To use the desktop layout alongside a physical display tracker, follow these ste
 * **Linux (Ubuntu/Debian):** Linux restricts raw USB serial writing by default. Run this command to grant your user account access to the serial interface without needing root permissions:
   ```bash
   sudo usermod -a -G dialout $USER
+
+*Created By: Swexzy*
