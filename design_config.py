@@ -1,9 +1,9 @@
 # Color Palette
-BG_DARK = "#1E1E24"       # Deep charcoal for the main window background
-BG_SURFACE = "#2A2A32"    # Slightly lighter gray for input fields/cards
-ACCENT_COLOR = "#FF9F1C"  # Vibrant orange/amber for buttons and highlights
-TEXT_LIGHT = "#F4F4F9"    # Off-white for high readability labels
-TEXT_MUTED = "#8D99AE"    # Soft gray for secondary labels (like "Amount:")
+BG_DARK = "#1A211D"
+ACCENT_COLOR = "#A6E3A1"
+TEXT_LIGHT = "#D3E0D7"
+BUTTON_COLOR = "#2ECC71"
+BUTTON_HOVER = "#27AE60"
 
 # Typography
 FONT_TITLE = ("Helvetica", 16, "bold")

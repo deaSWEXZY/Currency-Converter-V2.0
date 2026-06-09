@@ -6,16 +6,16 @@ from design_config import TEXT_LIGHT, FONT_RESULT
 import serial
 import serial.tools.list_ports
 import time
-import customtkinter as tkc
+import customtkinter as tkc #Updated Tkinter
 
 class CurrencyConverterApp:
 
     def __init__(self, root):
         self.root = root
-        self.root.title("Currency Exchange")
-        self.root.geometry("400x300")
+        self.root.title("Currency Converter")
+        self.root.geometry("300x400")
         self.root.config(bg=cfg.BG_DARK)
-        self.root.resizable(False, False)
+        self.root.resizable(False, False) #Make Sure that it's not resizable!
 
         #Icon - Image
         icon_img = Image.open("images/currency.png") #Loading the image file
@@ -45,6 +45,8 @@ class CurrencyConverterApp:
                     print("Arduino connection established!")
                     time.sleep(2)
                     break
+            if self.arduino is None:
+                print("Connect Arduino.. No valid hardware found on any port.")
 
         except Exception as e:
             print(f"Could not connect to Arduino: {e}")
@@ -55,6 +57,9 @@ class CurrencyConverterApp:
         self.fetch_live_data()
 
     def create_widgets(self):
+        #Centering Columns
+        self.root.grid_columnconfigure(0, weight=1)
+        self.root.grid_columnconfigure(1, weight=1)
 
         title_text = tkc.CTkLabel(
             self.root,
@@ -63,53 +68,63 @@ class CurrencyConverterApp:
             text_color=cfg.ACCENT_COLOR
         )
 
-        title_text.grid(row=0, column=0, columnspan=2, pady=20)
-
-
-        """Labels - User Input"""
+        #------------------ ELEMENTS ON GRID ------------------
 
         # Amount
         amount_label = tkc.CTkLabel(self.root, text="Amount:", font=cfg.FONT_LABEL, text_color=TEXT_LIGHT)
-        amount_label.grid(row=1, column=0, pady=5)
 
         # ADDED SELF HERE so the engine can read what the user types
         self.amount_entry = tkc.CTkEntry(self.root)
-        self.amount_entry.grid(row=1, column=1, pady=5)
 
         # From
         from_currency_label = tkc.CTkLabel(self.root, text="From:", font=cfg.FONT_LABEL, text_color=TEXT_LIGHT)
-        from_currency_label.grid(row=2, column=0, pady=5)
-
-        # ADDED SELF HERE so the math engine knows what currency is selected
         self.from_currency_box = tkc.CTkComboBox(self.root)
         self.from_currency_box.set("USD")
-        self.from_currency_box.grid(row=2, column=1, pady=5)
 
         # To
         to_currency_label = tkc.CTkLabel(self.root, text="To:", font=cfg.FONT_LABEL, text_color=TEXT_LIGHT)
-        to_currency_label.grid(row=3, column=0, pady=5)
-
         self.to_currency_box = tkc.CTkComboBox(self.root)
         self.to_currency_box.set("AMD")
-        self.to_currency_box.grid(row=3, column=1)
 
         # Result
         result_exchange_label = tkc.CTkLabel(self.root, text="Result:", font=cfg.FONT_LABEL, text_color=TEXT_LIGHT)
-        result_exchange_label.grid(row=4, column=0, pady=10)
 
         self.result_exchange_output = tkc.CTkLabel(self.root, text="--", font=cfg.FONT_LABEL, text_color=TEXT_LIGHT)
-        self.result_exchange_output.grid(row=4, column=1)
 
         # Button - Convert
         self.convert_button = tkc.CTkButton(
             self.root,
             text="Convert",
             command=self.convert_currency,
-            fg_color="#2ecc71",  # A sleek, modern green
-            hover_color="#27ae60"  # A slightly darker green when you hover over it
+            fg_color=cfg.BUTTON_COLOR,
+            hover_color=cfg.BUTTON_HOVER
         )
+
+        #------------------ ELEMENTS PLACING ------------------
+
+        # Title
+        title_text.grid(row=0, column=0, columnspan=2, pady=(20, 10))
+
+        # Amount
+        amount_label.grid(row=1, column=0, pady=5, padx=(0, 10), sticky="e")
+        self.amount_entry.grid(row=1, column=1, pady=5, sticky="w")
+
+        # From
+        from_currency_label.grid(row=2, column=0, pady=5, padx=(0, 10), sticky="e")
+        self.from_currency_box.grid(row=2, column=1, pady=5, sticky="w")
+
+        # To
+        to_currency_label.grid(row=3, column=0, pady=5, padx=(0, 10), sticky="e")
+        self.to_currency_box.grid(row=3, column=1, pady=5, sticky="w")
+
+        # Result
+        result_exchange_label.grid(row=4, column=0, pady=10, padx=(0, 10), sticky="e")
+        self.result_exchange_output.grid(row=4, column=1, pady=10, sticky="w")
+
+        # Button (Centered across both columns)
         self.convert_button.grid(row=5, column=0, columnspan=2, pady=20)
 
+    #------------------ LIVE API DATA ------------------
     def fetch_live_data(self):
         response = requests.get("https://open.er-api.com/v6/latest/USD")
 
@@ -134,7 +149,7 @@ class CurrencyConverterApp:
                 except Exception as e:
                     print(f"Failed to send data to hardware: {e}")
 
-
+    #------------------ MAIN LOGIC(CONVERTING) ------------------
     def convert_currency(self):
         try:
             amount = float(self.amount_entry.get())
@@ -163,7 +178,7 @@ class CurrencyConverterApp:
         except ValueError:
             messagebox.showwarning(title="Error", message="Enter a number please.")
 
-
+#------------------ OBJECTS - THE END ------------------
 root = Tk()
 app = CurrencyConverterApp(root)
 root.mainloop()
