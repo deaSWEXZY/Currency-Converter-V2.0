@@ -193,7 +193,6 @@ class CurrencyConverterApp:
     def reset_input(self):
         self.result_exchange_output.configure(text="--")
         self.amount_entry.delete(0, "end")
-        self.arduino.write(b"reset!")
 
 #------------------ OBJECTS - THE END ------------------
 root = Tk()
