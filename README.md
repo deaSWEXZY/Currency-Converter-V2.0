@@ -1,6 +1,6 @@
 # Currency Converter GUI with Arduino LCD Display
 
-<img width="1212" height="924" alt="image" src="https://github.com/user-attachments/assets/3316d9cd-006a-4c84-8701-3aa9021f3d6b" />
+![Currency Converter Preview](images/preview.png)
 
 A dark-mode desktop application built with Python and Tkinter(CustomTkinter) that fetches real-time exchange rates. It features a complete conversion engine paired with a hardware integration layer that automatically detects your connected Arduino board to display live conversions on an external LCD screen across Windows, macOS, and Linux.
 
