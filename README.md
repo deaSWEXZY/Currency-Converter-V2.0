@@ -1,7 +1,7 @@
 # Currency Converter GUI with Arduino LCD Display
 
 ## UI Preview
-<img src="images/preview.png" width="80%" alt="Currency Converter UI">
+<img src="images/preview.png" width="100%" alt="Currency Converter UI">
 ---
 
 A dark-mode desktop application built with Python and Tkinter(CustomTkinter) that fetches real-time exchange rates. It features a complete conversion engine paired with a hardware integration layer that automatically detects your connected Arduino board to display live conversions on an external LCD screen across Windows, macOS, and Linux.
@@ -18,8 +18,8 @@ A dark-mode desktop application built with Python and Tkinter(CustomTkinter) tha
 ## Software Setup (Python)
 
 **1. Clone the repository and navigate inside:**[
-git clone https://github.com/deaSWEXZY/Currency-Converter-V2.0
-cd Currency-Converter-V2.0
+git clone https://github.com/deaSWEXZY/Currency-Converter-V2
+cd Currency-Converter-V2
 
 **2. Create a virtual environment and install requirements:**
 python3 -m venv .venv
@@ -46,11 +46,19 @@ To use the desktop layout alongside a physical display tracker, follow these ste
   * GND -> GND
   * SDA -> A4
   * SCL -> A5
+
 * Connect Passive Buzzer.
 * **Wiring:**
   * VCC -> 5V (Use a 220ohms resisor on your breadboard!!)
   * GND -> GND
   * I/O -> PIN: 13
+
+* Connect Button.
+* **Wiring:**
+  * VCC -> 5V 
+  * GND -> GND
+  * OUT -> PIN: 7
+    
 * Open sketch_connecting.ino in the Arduino IDE, install the LiquidCrystal_I2C library, and flash your board.
 
 ### 2. Operating System Configurations
